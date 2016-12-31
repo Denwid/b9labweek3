@@ -7,16 +7,22 @@ function setStatus(message) {
   status.innerHTML = message;
 };
 
-function refreshBalance() {
-  var meta = MetaCoin.deployed();
-
-  meta.getBalance.call(account, {from: account}).then(function(value) {
-    var balance_element = document.getElementById("balance");
+function setBalance(which_account, value) {
+    var balance_element = document.getElementById("balance"+which_account);
     balance_element.innerHTML = value.valueOf();
-  }).catch(function(e) {
+}
+
+function setStatus(status_message) {
     console.log(e);
-    setStatus("Error getting balance; see log.");
-  });
+    setStatus(status_message);
+}
+    
+
+function refreshBalance(which_account) {
+  var splitter = Splitter.deployed();
+  splitter.getBalance.call()
+    .then(setBalance(which_account, value))
+    .catch(setStatus;;
 };
 
 function sendCoin() {

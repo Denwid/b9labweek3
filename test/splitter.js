@@ -1,19 +1,14 @@
 function assertIsOne(value) {
+        console.log(value);
 	assert.equal(value, 1, subject+" doesn't seem to be one");
 }
 
 
 contract('Splitter', function(accounts) {
-  var splitter = Splitter.deployed();
-  it("should reveice 2 ether", function() {
-    splitter.takeEther(2, {from: accounts[0]});
-  });
-  it("should have put 1 to account A", function() {
-    return splitter.getBalance.call(accounts[0])
-	.then(assertIsOne);
-  });
-  it("should have put 1 to account B ", function(){
-    return splitter.getBalance.call(accounts[1])
-	.then(assertIsOne); 
+  it("should reveice 2 ether and put 1 into AccountA and 1 into AccountB", function() {
+    var splitter = Splitter.deployed();
+    splitter.takeEther(2);
+    splitter.getBalanceA.call().then(assertIsOne);
+    splitter.getBalanceB.call().then(assertIsOne);
   });
 });
