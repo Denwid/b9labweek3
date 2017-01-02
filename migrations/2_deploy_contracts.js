@@ -1,3 +1,4 @@
 module.exports = function(deployer) {
-  deployer.deploy(Splitter);
+  var accounts = web3.eth.accounts
+  deployer.deploy(Splitter, accounts[1], accounts[2]);
 };
