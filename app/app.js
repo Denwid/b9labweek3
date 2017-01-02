@@ -7,9 +7,19 @@ function setStatus(message) {
   status.innerHTML = message;
 };
 
-function setBalance(which_account, value) {
-    var balance_element = document.getElementById("balance"+which_account);
+function setBalance(value) {
+    var balance_element = document.getElementById("balance");
     balance_element.innerHTML = value.valueOf();
+}
+
+function setAmountA(value) {
+    var amountA_element = document.getElementById("amountA");
+    amountA_element.innerHTML = value.valueOf();
+}
+
+function setAmountB(value) {
+    var amountB_element = document.getElementById("amountB");
+    amountA_element.innerHTML = value.ValueOf();
 }
 
 function setStatus(status_message) {
@@ -18,27 +28,30 @@ function setStatus(status_message) {
 }
     
 
-function refreshBalance(which_account) {
+function refreshView(which_account) {
   var splitter = Splitter.deployed();
-  splitter.getBalance.call()
-    .then(setBalance(which_account, value))
-    .catch(setStatus;;
+  splitter.amountA.call()
+    .then(setAmountA)
+    .catch(setStatus)
+
+  splitter.amountB.call()
+    .then(setAmountB)
+    .catch(setStatus)
 };
 
-function sendCoin() {
-  var meta = MetaCoin.deployed();
+function splitEther() {
+  var splitter = Splitter.deployed();
 
   var amount = parseInt(document.getElementById("amount").value);
-  var receiver = document.getElementById("receiver").value;
 
   setStatus("Initiating transaction... (please wait)");
 
-  meta.sendCoin(receiver, amount, {from: account}).then(function() {
+  splitter.takeEther().then(function() {
     setStatus("Transaction complete!");
-    refreshBalance();
+    refreshView();
   }).catch(function(e) {
     console.log(e);
-    setStatus("Error sending coin; see log.");
+    setStatus("Error splitting Ether; see log.");
   });
 };
 
@@ -57,6 +70,6 @@ window.onload = function() {
     accounts = accs;
     account = accounts[0];
 
-    refreshBalance();
+    refreshView();
   });
 }

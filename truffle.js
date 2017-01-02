@@ -1,9 +1,8 @@
 module.exports = {
   build: {
     "index.html": "index.html",
-    "app.js": "javascripts/app.js",
-    "app.css": "stylesheets/app.css",
-    "images/": "images/"
+    "app.js": "app.js",
+    "app.css": "app.css",
   },
   rpc: {
     host: "localhost",
