@@ -1,3 +1,4 @@
+pragma solidity ^0.4.2;
 
 contract Splitter {
     address public accountA;
@@ -13,7 +14,7 @@ contract Splitter {
         accountB = addrB;
     }
 
-    function takeEther() {
+    function takeEther() payable {
         uint forA = msg.value/2;
         uint forB = msg.value - forA;        
         amountA += forA;
