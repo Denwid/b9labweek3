@@ -1,5 +1,6 @@
 function assertIsAddress(value) {
     assert.isTrue(web3.isAddress(value));
+    assert.notEqual(value, "0x0000000000000000000000000000000000000000");
 }
 
 contract('Splitter', function(accounts) {
@@ -18,10 +19,8 @@ contract('Splitter', function(accounts) {
     var splitter = Splitter.deployed();
     var estimatedGas = 100000; //guess via splitter.contract.takeEther.estimateGas(function(e, r) { console.log(r); });
     var transactionObject = {
-        from: web3.eth.coinbase,
-        to: splitter.address,
-        value: valueSent,
-        gas: estimatedGas
+        from: accounts[0],
+        value: valueSent
     }
     return splitter.takeEther(transactionObject)
     .then(function(e, r) {
@@ -32,11 +31,11 @@ contract('Splitter', function(accounts) {
 
         var accountAafter = web3.eth.getBalance(accounts[1]);
         var accountAdifference = accountAbefore.minus(accountAafter).valueOf();
-        var accountAreceivedCorrectAmount = assert.equal(accountAdifference, -valueSent/2, "accountA wrong amount received?");
+        var accountAreceivedCorrectAmount = assert.strictEqual(accountAdifference, (-valueSent/2).toString(), "accountA wrong amount received?");
 
         var accountBafter = web3.eth.getBalance(accounts[2]);
         var accountBdifference = accountBbefore.minus(accountBafter).valueOf();
-        var accountBreceivedCorrectAmount = assert.equal(accountBdifference, -valueSent/2, "accountB wrong amount received?");
+        var accountBreceivedCorrectAmount = assert.strictEqual(accountBdifference, (-valueSent/2).toString(), "accountB wrong amount received?");
 
         return senderSpentCorrectAmount && accountAreceivedCorrectAmount && accountBreceivedCorrectAmount;
     })
